@@ -2,6 +2,8 @@
 
 > **A Policy-Aware Runtime Framework for Mitigating Sensitive Data Leakage in Multi-Agent LLM Systems**
 >
+> 🌐 **Live Interactive Demonstration Dashboard**: [https://priv-agent-shield-bice.vercel.app/](https://priv-agent-shield-bice.vercel.app/)
+>
 > *An active, inline, topology-aware runtime mediation layer combining dynamic Information Flow Control (IFC) and Attribute-Based Access Control (ABAC).*
 
 ---
