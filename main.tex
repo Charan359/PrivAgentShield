@@ -10,9 +10,14 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{microtype}
+\usepackage{balance}
 
 % Ensure long URLs break properly across lines
 \def\UrlBreaks{\do\/\do-}
+
+\setlength{\textfloatsep}{5pt plus 1.0pt minus 1.0pt}
+\setlength{\floatsep}{4pt plus 1.0pt minus 1.0pt}
+\setlength{\intextsep}{4pt plus 1.0pt minus 1.0pt}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -413,6 +418,7 @@ Furthermore, our focus on session-consistent pseudonymization addresses the util
     \item \textbf{Performance Validity:} Latency measurements must reflect end-to-end multi-agent execution overhead across distributed networks, rather than isolated microbenchmarks.
 \end{itemize}
 
+\balance
 \section{Conclusion and Future Work}
 This paper presented the design and formalization of PrivAgentShield, a policy-aware runtime mediation framework for mitigating sensitive data leakage in multi-agent LLM systems. By formalizing the non-compensatory Leakage Risk Index ($LRI^*$), PrivAgentShield unifies payload sensitivity, lattice clearance dominance, and execution graph reachability into an actionable runtime metric. Enforced through a cascaded three-tier inspection proxy utilizing session-consistent pseudonymization, the architecture provides a systematic path toward securing internal agent coordination channels without requiring foundation model retraining.
 
