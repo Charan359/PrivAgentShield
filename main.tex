@@ -422,6 +422,8 @@ Furthermore, our focus on session-consistent pseudonymization addresses the util
 \section{Conclusion and Future Work}
 This paper presented the design and formalization of PrivAgentShield, a policy-aware runtime mediation framework for mitigating sensitive data leakage in multi-agent LLM systems. By formalizing the non-compensatory Leakage Risk Index ($LRI^*$), PrivAgentShield unifies payload sensitivity, lattice clearance dominance, and execution graph reachability into an actionable runtime metric. Enforced through a cascaded three-tier inspection proxy utilizing session-consistent pseudonymization, the architecture provides a systematic path toward securing internal agent coordination channels without requiring foundation model retraining.
 
+Future work will focus on extending PrivAgentShield into a \textbf{Federated Edge AI} architecture, enabling decentralized, privacy-preserving mediation across distributed edge nodes and on-device multi-agent networks. Additional avenues include integrating hardware-accelerated Trusted Execution Environments (TEEs) and formal verification for dynamically evolving agent topologies.
+
 \section*{Data and Code Availability}
 The PrivAgentShield source code, empirical evaluation traces, and interactive demonstration dashboard are publicly accessible at \url{https://github.com/Charan359/PrivAgentShield} and hosted live at \url{https://priv-agent-shield-bice.vercel.app/}.
 
