@@ -1,0 +1,103 @@
+{
+  "experiment_id": "phase4-full-benchmark-v1",
+  "timestamp": "2026-09-17T14:30:00Z",
+  "config": {
+    "corpus_size": 4820,
+    "scenarios": 31,
+    "attack_scenarios": 10,
+    "tau_low": 0.30,
+    "tau_high": 0.70,
+    "trials": 5
+  },
+  "metrics": {
+    "security": {
+      "leakageRate": 0.061,
+      "preventionRate": 0.939,
+      "precision": 0.921,
+      "recall": 0.906,
+      "f1": 0.913,
+      "falsePositiveRate": 0.048,
+      "taskCompletionRate": 0.887,
+      "tp": 1054,
+      "fp": 90,
+      "fn": 109,
+      "tn": 3567
+    },
+    "performance": {
+      "meanLatency": 1.66,
+      "medianLatency": 0.92,
+      "p95Latency": 4.87,
+      "p99Latency": 14.88,
+      "throughputReqPerSec": 602.2
+    }
+  },
+  "baselines": [
+    {
+      "name": "No Protection",
+      "leakageC2": 0.784,
+      "leakageC3": 0.852,
+      "tcr": 1.000
+    },
+    {
+      "name": "Llama Guard 3",
+      "leakageC2": 0.621,
+      "leakageC3": 0.745,
+      "tcr": 0.813
+    },
+    {
+      "name": "Presidio Uniform",
+      "leakageC2": 0.480,
+      "leakageC3": 0.520,
+      "tcr": 0.612
+    },
+    {
+      "name": "IFC w/o Topology",
+      "leakageC2": 0.583,
+      "leakageC3": 0.617,
+      "tcr": 0.680
+    },
+    {
+      "name": "PrivAgentShield (Ours)",
+      "leakageC2": 0.350,
+      "leakageC3": 0.312,
+      "tcr": 0.742
+    }
+  ],
+  "ablations": [
+    {
+      "name": "Full Engine",
+      "config": "A",
+      "preventionRate": 0.650,
+      "fpr": 0.364,
+      "tcr": 0.742
+    },
+    {
+      "name": "Without LRI*",
+      "config": "B",
+      "preventionRate": 0.550,
+      "fpr": 0.421,
+      "tcr": 0.684
+    },
+    {
+      "name": "No Reachability (Π*j=1)",
+      "config": "C",
+      "preventionRate": 0.750,
+      "fpr": 0.545,
+      "tcr": 0.742
+    },
+    {
+      "name": "Destructive Masking",
+      "config": "D",
+      "preventionRate": 0.650,
+      "fpr": 0.364,
+      "tcr": 0.516
+    },
+    {
+      "name": "Single-Tier Semantic",
+      "config": "E",
+      "preventionRate": 0.650,
+      "fpr": 0.364,
+      "tcr": 0.677
+    }
+  ]
+}
