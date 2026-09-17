@@ -38,7 +38,7 @@ const nav = [
   { to: "/evaluation", label: "Evaluation", icon: FlaskConical },
   { to: "/enforcement-verification", label: "Enforcement Verification", icon: ShieldCheck },
   { to: "/status", label: "System Status", icon: Activity },
-  { to: "/settings", label: "System Settings", icon: Settings },
+  { to: "/research-eval", label: "Research Evaluation", icon: BookOpenCheck },
 ] as const;
 
 export function SimulationBanner() {

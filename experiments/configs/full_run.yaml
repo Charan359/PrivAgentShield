@@ -1,0 +1,17 @@
+# experiments/configs/full_run.yaml
+experiment_id: full_phase4_run
+scenario_path: ../../src/data/scenarios.ts   # using existing scenario definitions
+model_provider: synthetic
+temperature: 0.0
+seed: 42
+trials: 3
+thresholds:
+  tau_low: 0.30
+  tau_high: 0.70
+enabled_tiers:
+  - 1
+  - 2
+  - 3
+lri_enabled: true
+topology_enabled: true
+masking_mode: pseudonymization

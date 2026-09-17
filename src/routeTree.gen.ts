@@ -23,6 +23,7 @@ import { Route as PermissionsRouteImport } from './routes/permissions'
 import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as PoliciesRouteImport } from './routes/policies'
 import { Route as QuarantineRouteImport } from './routes/quarantine'
+import { Route as ResearchEvalRouteImport } from './routes/research-eval'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as SensitivityConfigRouteImport } from './routes/sensitivity-config'
 import { Route as SettingsRouteImport } from './routes/settings'
@@ -100,6 +101,11 @@ const QuarantineRoute = QuarantineRouteImport.update({
   path: '/quarantine',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResearchEvalRoute = ResearchEvalRouteImport.update({
+  id: '/research-eval',
+  path: '/research-eval',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RiskRoute = RiskRouteImport.update({
   id: '/risk',
   path: '/risk',
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/playground': typeof PlaygroundRoute
   '/policies': typeof PoliciesRoute
   '/quarantine': typeof QuarantineRoute
+  '/research-eval': typeof ResearchEvalRoute
   '/risk': typeof RiskRoute
   '/sensitivity-config': typeof SensitivityConfigRoute
   '/settings': typeof SettingsRoute
@@ -168,6 +175,7 @@ export interface FileRoutesByTo {
   '/playground': typeof PlaygroundRoute
   '/policies': typeof PoliciesRoute
   '/quarantine': typeof QuarantineRoute
+  '/research-eval': typeof ResearchEvalRoute
   '/risk': typeof RiskRoute
   '/sensitivity-config': typeof SensitivityConfigRoute
   '/settings': typeof SettingsRoute
@@ -191,6 +199,7 @@ export interface FileRoutesById {
   '/playground': typeof PlaygroundRoute
   '/policies': typeof PoliciesRoute
   '/quarantine': typeof QuarantineRoute
+  '/research-eval': typeof ResearchEvalRoute
   '/risk': typeof RiskRoute
   '/sensitivity-config': typeof SensitivityConfigRoute
   '/settings': typeof SettingsRoute
@@ -215,6 +224,7 @@ export interface FileRouteTypes {
     | '/playground'
     | '/policies'
     | '/quarantine'
+    | '/research-eval'
     | '/risk'
     | '/sensitivity-config'
     | '/settings'
@@ -237,6 +247,7 @@ export interface FileRouteTypes {
     | '/playground'
     | '/policies'
     | '/quarantine'
+    | '/research-eval'
     | '/risk'
     | '/sensitivity-config'
     | '/settings'
@@ -259,6 +270,7 @@ export interface FileRouteTypes {
     | '/playground'
     | '/policies'
     | '/quarantine'
+    | '/research-eval'
     | '/risk'
     | '/sensitivity-config'
     | '/settings'
@@ -282,6 +294,7 @@ export interface RootRouteChildren {
   PlaygroundRoute: typeof PlaygroundRoute
   PoliciesRoute: typeof PoliciesRoute
   QuarantineRoute: typeof QuarantineRoute
+  ResearchEvalRoute: typeof ResearchEvalRoute
   RiskRoute: typeof RiskRoute
   SensitivityConfigRoute: typeof SensitivityConfigRoute
   SettingsRoute: typeof SettingsRoute
@@ -390,6 +403,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuarantineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/research-eval': {
+      id: '/research-eval'
+      path: '/research-eval'
+      fullPath: '/research-eval'
+      preLoaderRoute: typeof ResearchEvalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/risk': {
       id: '/risk'
       path: '/risk'
@@ -450,6 +470,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlaygroundRoute: PlaygroundRoute,
   PoliciesRoute: PoliciesRoute,
   QuarantineRoute: QuarantineRoute,
+  ResearchEvalRoute: ResearchEvalRoute,
   RiskRoute: RiskRoute,
   SensitivityConfigRoute: SensitivityConfigRoute,
   SettingsRoute: SettingsRoute,
