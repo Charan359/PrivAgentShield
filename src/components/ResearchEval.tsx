@@ -118,7 +118,7 @@ export const ResearchEval: React.FC = () => {
   if (error) {
     return (
       <div className="rounded-md border border-block/30 bg-block/5 p-4 text-sm text-block">
-        <strong>Failed to load Phase 4 results:</strong> {error}
+        <strong>Failed to load evaluation results:</strong> {error}
         <p className="mt-1 text-xs text-muted-foreground">
           Run <code className="rounded bg-secondary px-1">npm run phase4</code>{" "}
           to generate <code>public/phase4_summary.json</code>.
@@ -131,7 +131,7 @@ export const ResearchEval: React.FC = () => {
     return (
       <div className="flex items-center gap-2 p-6 text-sm text-muted-foreground">
         <span className="size-2 animate-pulse rounded-full bg-primary" />
-        Loading Phase 4 results…
+        Loading evaluation results…
       </div>
     );
   }
@@ -145,7 +145,7 @@ export const ResearchEval: React.FC = () => {
       {/* ── Experiment Identity ────────────────────────────────── */}
       <Panel
         title="Experiment Configuration"
-        description="Parameters used for the Phase 4 empirical validation run."
+        description="Parameters used for the empirical validation run."
       >
         <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
           {[

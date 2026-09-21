@@ -6,7 +6,7 @@ export const Route = createFileRoute("/research-eval")({
   head: () => ({
     meta: [
       { title: "Research Evaluation — PrivAgentShield" },
-      { name: "description", content: "Empirical evaluation results and metrics for Phase 4 validation." },
+      { name: "description", content: "Empirical evaluation results and metrics validation." },
     ],
   }),
   component: ResearchEvalPage,
@@ -16,7 +16,7 @@ function ResearchEvalPage() {
   return (
     <Shell>
       <PageHeader
-        eyebrow="Phase 4 Empirical Validation"
+        eyebrow="Empirical Validation"
         title="Research Evaluation Dashboard"
         subtitle="Empirical results, baseline comparisons, and statistical metric breakdowns generated from experimental runs."
       />
