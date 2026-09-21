@@ -125,7 +125,13 @@ Existing literature addresses fragmented dimensions of multi-agent privacy:
 \end{itemize}
 What is missing is a lightweight runtime mediation architecture that integrates:
 \begin{equation*}
-    T^*_m \text{ (Sensitivity)} + \Delta^*_{ij} \text{ (Clearance)} + \Pi^*_j \text{ (Topology)} \longrightarrow LRI^* \longrightarrow \text{Action}
+\left.
+\begin{aligned}
+    & T^*_m \text{ (Sensitivity)} \\
+    & \Delta^*_{ij} \text{ (Clearance)} \\
+    & \Pi^*_j \text{ (Topology)}
+\end{aligned}
+\right\} \longrightarrow LRI^* \longrightarrow \text{Action}
 \end{equation*}
 PrivAgentShield addresses this gap by formalizing a quantitative, topology-aware risk decision that informs runtime access and sanitization decisions.
 
