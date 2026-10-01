@@ -80,11 +80,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "PrivAgentShield" },
       { name: "description", content: "A Policy-Aware Runtime Framework for Mitigating Sensitive Data Leakage in Multi-Agent LLM Systems" },
       { name: "author", content: "PrivAgentShield Research" },
-      { property: "og:title", content: "PrivAgentShield" },
+      { property: "og:title", content: "PrivAgentShield Dashboard" },
       { property: "og:description", content: "A Policy-Aware Runtime Framework for Mitigating Sensitive Data Leakage in Multi-Agent LLM Systems" },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@PrivAgentShield" },
+      { name: "twitter:image", content: "/og-image.png" },
     ],
     links: [
       {

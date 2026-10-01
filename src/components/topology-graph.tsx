@@ -38,13 +38,13 @@ const EDGE_COLOR: Record<EdgeSecurityState, string> = {
   allow:      "#22c55e",
   sanitize:   "#f59e0b",
   quarantine: "#ef4444",
-  idle:       "hsl(var(--border))",
+  idle:       "var(--color-border)",
 };
 
 const NODE_TYPE_STYLE: Record<string, { bg: string; border: string; text: string; icon: string }> = {
-  agent:         { bg: "hsl(var(--card))",       border: "hsl(var(--primary))",    text: "hsl(var(--primary))",    icon: "🤖" },
-  internal_sink: { bg: "hsl(var(--secondary))",  border: "hsl(var(--border))",     text: "hsl(var(--foreground))", icon: "🗄️" },
-  external_sink: { bg: "#1a0a0a",                border: "#ef4444",                text: "#ef4444",                icon: "🌐" },
+  agent:         { bg: "var(--color-card)",       border: "var(--color-primary)",    text: "var(--color-primary)",    icon: "🤖" },
+  internal_sink: { bg: "var(--color-secondary)",  border: "var(--color-border)",     text: "var(--color-foreground)", icon: "🗄️" },
+  external_sink: { bg: "#1a0a0a",                border: "var(--color-destructive)", text: "var(--color-destructive)", icon: "🌐" },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -133,7 +133,7 @@ function GraphEdge({
         y={my - 5}
         textAnchor="middle"
         fontSize={9}
-        fill="hsl(var(--muted-foreground))"
+        fill="var(--color-muted-foreground)"
       >
         {(edge.probability * 100).toFixed(0)}%
       </text>
@@ -205,7 +205,7 @@ function GraphNode({
         y={36}
         textAnchor="middle"
         fontSize={8}
-        fill="hsl(var(--muted-foreground))"
+        fill="var(--color-muted-foreground)"
       >
         {node.type === "external_sink" ? "⚠ external sink" : node.type === "internal_sink" ? "internal sink" : "agent"}
       </text>
@@ -247,7 +247,7 @@ function Legend() {
         { color: "#22c55e", label: "ALLOW" },
         { color: "#f59e0b", label: "SANITIZE" },
         { color: "#ef4444", label: "QUARANTINE" },
-        { color: "hsl(var(--border))", label: "Idle" },
+        { color: "var(--color-border)", label: "Idle" },
       ].map(({ color, label }) => (
         <span key={label} className="flex items-center gap-1.5 text-muted-foreground">
           <span className="inline-block h-2 w-6 rounded-sm" style={{ backgroundColor: color }} />

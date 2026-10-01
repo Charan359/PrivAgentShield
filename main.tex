@@ -6,48 +6,88 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
-\usepackage{url}
 \usepackage{booktabs}
-\usepackage{multirow}
 \usepackage{microtype}
 \usepackage{balance}
+\usepackage{url}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, calc, backgrounds}
 
 % Ensure long URLs break properly across lines
 \def\UrlBreaks{\do\/\do-}
 
-\setlength{\textfloatsep}{5pt plus 1.0pt minus 1.0pt}
-\setlength{\floatsep}{4pt plus 1.0pt minus 1.0pt}
-\setlength{\intextsep}{4pt plus 1.0pt minus 1.0pt}
-
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+% Standard IEEE compact float spacing
+\setlength{\textfloatsep}{3pt plus 0.5pt minus 0.5pt}
+\setlength{\floatsep}{2pt plus 0.5pt minus 0.5pt}
+\setlength{\intextsep}{2pt plus 0.5pt minus 0.5pt}
+\setlength{\dbltextfloatsep}{3pt plus 0.5pt minus 0.5pt}
+\setlength{\dblfloatsep}{2pt plus 0.5pt minus 0.5pt}
 
 \begin{document}
 
-\title{PrivAgentShield: A Policy-Aware Runtime Framework for Mitigating Sensitive Data Leakage in Multi-Agent LLM Systems\\
-\thanks{All authors are with the Department of Computer Science and Engineering (Data Science), Nagarjuna College of Engineering and Technology, Bengaluru, India. Interactive demonstration platform available at \url{https://priv-agent-shield-bice.vercel.app/}.}
+\title{PrivAgentShield: A Policy-Aware Runtime Framework for Mitigating Sensitive Data Leakage in Multi-Agent LLM Systems\thanks{Code: \url{https://github.com/Charan359/PrivAgentShield}. Demo: \url{https://priv-agent-shield-bice.vercel.app/}.}
 }
 
-\author{\IEEEauthorblockN{Charan H S\IEEEauthorrefmark{1},
-Kruthika S\IEEEauthorrefmark{2},
-Dhereen K\IEEEauthorrefmark{3}, and
-Manju J K\IEEEauthorrefmark{4}}
-\IEEEauthorblockA{Department of Computer Science and Engineering (Data Science)\\
-Nagarjuna College of Engineering and Technology, Bengaluru, India\\
-Email: \IEEEauthorrefmark{1}1nc24cd008@ncetmail.com,
-\IEEEauthorrefmark{2}1nc24cd024@ncetmail.com,
-\IEEEauthorrefmark{3}1nc24cd009@ncetmail.com,
-\IEEEauthorrefmark{4}1nc24cd028@ncetmail.com}
+\author{
+\begin{minipage}[t]{0.31\textwidth}
+\centering
+\textbf{Charan H S}\\
+\scriptsize Department of Computer Science\\
+and Engineering (Data Science)\\
+Nagarjuna College of Engineering\\
+and Technology, Bengaluru, India\\
+1nc24cd008@ncetmail.com
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.31\textwidth}
+\centering
+\textbf{Kruthika S}\\
+\scriptsize Department of Computer Science\\
+and Engineering (Data Science)\\
+Nagarjuna College of Engineering\\
+and Technology, Bengaluru, India\\
+1nc24cd024@ncetmail.com
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.31\textwidth}
+\centering
+\textbf{Dr. Syed Naimatullah Hussain}\\
+\scriptsize Department of Computer Science\\
+and Engineering (Data Science)\\
+Nagarjuna College of Engineering\\
+and Technology, Bengaluru, India\\
+Drsnuh@gmail.com
+\end{minipage}
+
+\vspace{0.25cm}
+
+\makebox[\textwidth][c]{%
+\begin{minipage}[t]{0.33\textwidth}
+\centering
+\textbf{Dheeren K}\\
+\scriptsize Department of Computer Science\\
+and Engineering (Data Science)\\
+Nagarjuna College of Engineering\\
+and Technology, Bengaluru, India\\
+1nc24cd009@ncetmail.com
+\end{minipage}%
+\hspace{0.10\textwidth}%
+\begin{minipage}[t]{0.33\textwidth}
+\centering
+\textbf{Manju J K}\\
+\scriptsize Department of Computer Science\\
+and Engineering (Data Science)\\
+Nagarjuna College of Engineering\\
+and Technology, Bengaluru, India\\
+1nc24cd028@ncetmail.com
+\end{minipage}%
+}
 }
 
 \maketitle
 
 \begin{abstract}
-Autonomous multi-agent Large Language Model (LLM) architectures decompose enterprise tasks into cooperative execution graphs involving intermediate scratchpads, shared persistent memory, and dynamic tool calls. However, unconstrained internal communication channels introduce severe privacy vulnerabilities, including transitive confidential data leakage, privilege escalation, and tool-assisted exfiltration. While conventional perimeter guardrails moderate external user-facing endpoints, recent evaluations reveal that internal agent coordination channels frequently leak sensitive records without triggering boundary defenses.
-
-To address this challenge, this paper introduces PrivAgentShield, a policy-aware runtime mediation framework combining dynamic Information Flow Control (IFC) with Attribute-Based Access Control (ABAC). Rather than claiming absolute novelty across all runtime security, PrivAgentShield targets a specific, defensible technical gap: topology-aware quantitative runtime privacy mediation. We formalize the Leakage Risk Index ($LRI^*$), a non-compensatory minimax metric unifying payload sensitivity ($T^*_m$), lattice clearance dominance ($\Delta^*_{ij}$), and downstream egress reachability ($\Pi^*_j$) modeled via absorbing Markov chains.
-
-Enforced through an inline reverse proxy operating a three-tier cascaded inspection engine (compiled regular expressions, named-entity recognition, and selective transformer verification), PrivAgentShield dynamically executes ALLOW, SANITIZE (via session-consistent pseudonymization), and QUARANTINE interventions without requiring model parameter retraining. We evaluate PrivAgentShield across internal-channel leakage traces from AgentLeak and adversarial injection suites from AgentDojo, demonstrating a 65.0\% privacy leakage prevention rate, 74.2\% task reasoning preservation, and an average operational latency of 1.66\,ms.
+Autonomous multi-agent Large Language Model (LLM) architectures decompose enterprise objectives into cooperative execution graphs involving intermediate scratchpads, shared persistent memory, and dynamic tool calls. However, unconstrained internal communication channels introduce severe privacy risks, including confidential data leakage, privilege escalation, and tool-assisted exfiltration. While perimeter guardrails filter external user-facing endpoints, internal coordination channels can propagate sensitive records without triggering boundary defenses. To address this challenge, this paper presents PrivAgentShield, a policy-aware runtime mediation framework combining dynamic Information Flow Control (IFC) with Attribute-Based Access Control (ABAC). We formalize the Leakage Risk Index ($LRI^*$), a non-compensatory minimax metric unifying payload sensitivity ($T^*_m$), lattice clearance dominance ($\Delta^*_{ij}$), and downstream egress reachability ($\Pi^*_j$) modeled via absorbing Markov chains. Deployed as an inline reverse proxy with a three-tier cascaded inspection engine (regular expressions with Shannon entropy, named-entity recognition, and transformer verification), PrivAgentShield dynamically executes ALLOW, SANITIZE (via session-consistent pseudonymization), and QUARANTINE actions without model retraining. We evaluate PrivAgentShield across a multi-agent benchmark of 31 labeled execution traces spanning ten attack scenarios, demonstrating a 65.0\% privacy leakage prevention rate, 74.2\% task completion preservation, and a mean runtime latency of 1.66\,ms.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -55,206 +95,207 @@ Multi-Agent LLM Systems, Sensitive Data Leakage, Information Flow Control, Attri
 \end{IEEEkeywords}
 
 \section{Introduction}
-Distributed multi-agent systems (MAS) powered by frameworks such as LangGraph \cite{21}, CrewAI \cite{22}, and MetaGPT \cite{23} coordinate autonomous agents to resolve complex organizational tasks via natural language messaging, shared memory stores, and external tool calls \cite{1}.
+Distributed multi-agent systems (MAS) coordinate specialized autonomous agents to execute complex organizational workflows through natural language messaging, shared memory stores, and external tool execution loops \cite{1}. While multi-agent collaboration improves problem-solving modularity, it expands the internal vulnerability surface. Conventional AI safety techniques focus primarily on perimeter moderation models (e.g., Llama Guard \cite{15}, Llama Guard 3 \cite{16}) and programmable dialog guardrails (e.g., NeMo Guardrails \cite{17}). These perimeter mechanisms inspect prompts at external ingestion or terminal synthesis, remaining blind to lateral, agent-to-agent exchanges.
 
-Despite substantial capability gains, decentralized multi-agent architectures introduce expanded internal attack surfaces. Historically, AI security research has concentrated on perimeter guardrails such as boundary moderation models (e.g., Llama Guard \cite{15}, Llama Guard 3 \cite{16}) and rule-guided dialog rails (e.g., NeMo Guardrails \cite{17}). These mechanisms inspect prompts exclusively at external ingestion or outputs at terminal synthesis.
-
-Empirical evaluations established by El Yagoubi et al. in the AgentLeak benchmark \cite{1} formalize the Hidden Leakage Hypothesis: while multi-agent deliberation may dilute user-visible output leakage to 27.2\%, intermediate coordination channels exhibit pervasive vulnerabilities. Internal messages ($C_2$), tool arguments ($C_3$), and shared memory ($C_5$) disclose confidential data at rates exceeding 68\% to 85\% \cite{1}. Consequently, boundary-only security filters fail to detect over 41\% of enterprise privacy violations.
-
-This internal exposure is exacerbated by three structural failure modes:
+Recent empirical studies highlight the Hidden Leakage phenomenon \cite{1}: while multi-agent deliberation may dilute user-visible terminal output leakage, intermediate channels---including inter-agent messages ($C_2$), tool arguments ($C_3$), and shared memory ($C_5$)---frequently transmit sensitive records. Internal data leakage is exacerbated by three structural vulnerabilities:
 \begin{enumerate}
-    \item \textbf{Summary Collapse in Handoffs:} Upstream agents compress reasoning context for downstream collaborators, routinely stripping administrative provenance and privacy qualifiers while retaining raw operational facts \cite{4}.
+    \item \textbf{Summary Collapse in Handoffs:} Upstream agents summarize reasoning context for downstream collaborators, routinely stripping privacy qualifiers while preserving raw sensitive operational data \cite{4}.
     \item \textbf{Compositional Privacy Decay:} Non-sensitive context fragments exchanged across sequential turns can be aggregated downstream to reconstruct protected records.
-    \item \textbf{Confused-Deputy Exfiltration:} Untrusted external inputs compromise lower-clearance workers via prompt injection \cite{7}, tricking high-clearance coordinators into exfiltrating records across unmonitored API sinks \cite{2}.
+    \item \textbf{Confused-Deputy Exfiltration:} Untrusted external inputs or prompt injections \cite{7} can compromise lower-clearance worker agents, inducing high-clearance coordinators into transmitting confidential records to unmonitored sinks \cite{2}.
 \end{enumerate}
 
-Statutory frameworks, including GDPR Article 9, HIPAA-164.312, and the EU AI Act Annex III \cite{9}, mandate that sensitive processing remain restricted across all intermediate representations. Mitigating internal leakage requires inline reference monitoring capable of tracking data sensitivity, access authorization, and transitive sink reachability.
+Privacy and AI governance frameworks emphasize appropriate handling and protection of sensitive information across data-processing workflows. Mitigating internal leakage requires inline reference monitoring capable of evaluating data sensitivity, recipient authorization, and downstream sink reachability.
 
-This paper introduces PrivAgentShield, a runtime mediation framework that bridges this operational gap. The primary contributions are:
+To address this challenge, we present \textbf{PrivAgentShield}, a policy-aware runtime mediation framework for multi-agent LLM systems. The primary contributions of this work are:
 \begin{itemize}
-    \item \textbf{Topology-Aware Leakage Risk Index ($LRI^*$):} A non-compensatory formulation unifying message taint, lattice clearance dominance, and absorbing Markov sink reachability.
-    \item \textbf{Runtime Mediation Architecture:} An inline proxy integrating dynamic Information Flow Control (IFC) and Attribute-Based Access Control (ABAC) across internal agent channels.
-    \item \textbf{Cascaded Verification Pipeline:} A three-tier engine combining compiled regular expressions, named-entity recognition, and small language model arbiters.
-    \item \textbf{Session-Consistent Pseudonymization:} A context-preserving mechanism replacing sensitive entities with typed surrogate tokens, preventing reasoning degradation across multi-turn handoffs.
-    \item \textbf{Discrete Tri-Action Enforcement:} A deterministic policy mechanism executing ALLOW, SANITIZE, and QUARANTINE based on calibrated operational risk boundaries.
-    \item \textbf{Rigorous Empirical Evaluation:} A systematic evaluation benchmarking leakage rates, latency overheads, and task reasoning preservation across multi-agent vulnerability traces.
+    \item \textbf{Topology-Aware Leakage Risk Index ($LRI^*$):} A non-compensatory minimax formulation that unifies payload sensitivity, lattice clearance dominance, and absorbing Markov sink reachability into an actionable risk metric.
+    \item \textbf{Runtime Mediation Architecture:} An inline reference proxy integrating dynamic IFC and ABAC across internal agent communication channels.
+    \item \textbf{Cascaded Inspection Pipeline:} A three-tier engine triaging messages across compiled automata with Shannon entropy, statistical named-entity recognition (NER), and transformer-based verification.
+    \item \textbf{Session-Consistent Pseudonymization:} A context-preserving mechanism replacing sensitive entities with typed surrogate identifiers to maintain multi-turn coreference without exposing plaintext data.
+    \item \textbf{Empirical Evaluation:} Experimental evaluation across 31 labeled multi-agent traces spanning ten attack scenarios, measuring leakage prevention, task completion rate, and runtime latency.
 \end{itemize}
-
-\section{Background and Problem Definition}
-Let a multi-agent system be modeled as a directed execution graph $G = (V, E)$. The node set $V = V_A \cup V_S$ comprises autonomous LLM agents $V_A$ and absorbing boundary sinks $V_S$ (external webhooks, databases, and third-party APIs). A directed edge $e_{ij} = (v_i, v_j) \in E$ denotes an authorized communication channel.
-
-When agent $v_i$ emits payload $m$ intended for $v_j$, traditional access control models verify only the static identity of $v_j$. However, this is insufficient in generative multi-agent systems:
-\begin{itemize}
-    \item $v_j$ may possess legitimate clearance to inspect $m$, yet its downstream workflow may include high-probability dispatch to an unmonitored external sink node $s \in V_S$.
-    \item The contents of $m$ are generated dynamically and may contain unstructured credentials or sensitive personal records.
-    \item Modifying model parameters via fine-tuning is computationally expensive and does not prevent zero-day indirect prompt injections.
-\end{itemize}
-
-The objective is to design a runtime reference monitor that intercepts intermediate payload $m$ across edge $e_{ij}$ and computes an operational risk score driving non-destructive mitigation prior to message consumption.
 
 \section{Related Work}
-\subsection{Output and Boundary Guardrails}
-Early LLM safety frameworks focused on boundary moderation. Llama Guard \cite{15} and Llama Guard 3 \cite{16} apply fine-tuned classifiers to evaluate inputs against static hazard categories. NeMo Guardrails \cite{17} uses Colang scripts to enforce programmable dialog constraints. While effective at terminal endpoints, these architectures operate statelessly and lack visibility into internal multi-agent coordination traces ($C_2, C_3, C_5$), allowing internal leakage to propagate unmonitored.
+\subsection{Output and Perimeter Guardrails}
+Perimeter moderation frameworks such as Llama Guard \cite{15}, \cite{16} and NeMo Guardrails \cite{17} apply classifier-based or rule-guided boundaries to external prompts and terminal outputs. Although effective for single-turn moderation, they operate statelessly at system boundaries and lack visibility into intermediate inter-agent channels ($C_2, C_3, C_5$).
 
-\subsection{Internal-Channel Privacy Leakage}
-Recent studies have identified significant privacy vulnerabilities within intermediate multi-agent channels. Geng and Chang identified summary collapse \cite{4}, demonstrating that inter-agent context compression discards privacy classifications while retaining raw data. Mireshghallah et al. introduced ConfAIde \cite{6} to measure contextual integrity violations in multi-agent problem-solving. While diagnostic, these studies focus on characterization rather than active runtime mediation.
+\subsection{Multi-Agent Vulnerability and Benchmarks}
+Recent benchmarks have characterized internal privacy decay in multi-agent LLMs. El Yagoubi et al. introduced AgentLeak \cite{1}, auditing privacy leakage across seven internal communication channels. Mireshghallah et al. introduced ConfAIde \cite{6} to analyze contextual integrity violations in multi-agent reasoning. Security benchmarks such as AgentDojo \cite{2} and LeakAgent \cite{5} demonstrate that prompt injection and memory-extraction exploits can circumvent application logic. While diagnostic, these benchmarks do not provide an active, inline runtime defense mechanism.
 
-\subsection{AgentLeak Benchmark}
-El Yagoubi et al. introduced AgentLeak \cite{1}, establishing an empirical multi-channel audit across 1,000 multi-domain traces. AgentLeak formalizes evaluation across seven internal channels, including inter-agent messages ($C_2$), tool arguments ($C_3$), and shared memory ($C_5$). AgentLeak establishes the scope of internal leakage; PrivAgentShield utilizes its scenarios as an evaluation suite for runtime mediation.
+\subsection{Information Flow Control and Policy Enforcement}
+Information Flow Control (IFC) formally governs data propagation using security lattices \cite{10}, confidentiality models \cite{11}, and integrity policies \cite{12}, \cite{13}. Recent adaptations to LLMs include LLMbda \cite{8}, which formalizes dynamic IFC within an untyped lambda calculus, and AgentFlow \cite{3}, which enforces path-based flow policies via SMT constraint solvers. While AgentFlow focuses on formal invariant verification, PrivAgentShield provides quantitative runtime risk scoring ($LRI^*$) evaluated inline with low operational latency.
 
-\subsection{Information Flow Control (IFC)}
-Language-based Information Flow Control tracks data dependencies across computational paths using security lattices \cite{10}, Bell-LaPadula confidentiality \cite{11}, and Biba integrity \cite{12}, \cite{13}. Adapting IFC to LLMs, LLMbda \cite{8} introduced dynamic IFC within an untyped lambda calculus using Lean machine-checked proofs. However, lambda calculus formalisms require specialized functional execution environments, presenting practical integration hurdles for standard enterprise agent frameworks.
+\subsection{PII Detection and Sanitization}
+Entity detection tools such as Microsoft Presidio \cite{18}, GLiNER \cite{19}, and Hyperscan \cite{20} provide regular expression and transformer-based entity extraction. Standard sanitizers apply uniform redaction (e.g., masking with asterisks), which can disrupt LLM reasoning. PrivAgentShield integrates multi-tiered detection with session-consistent pseudonymization to maintain downstream task reasoning.
 
-\subsection{AgentFlow: Flow-Centric Runtime Policy Enforcement}
-AgentFlow \cite{3} introduces flow-centric policy enforcement over labeled runtime execution edges, path-based flow policies, task-scoped capabilities, controlled release, and stateful taint tracking verified via SMT solvers. PrivAgentShield addresses a complementary objective: while AgentFlow focuses on formal SMT verification of flow invariants, PrivAgentShield targets quantitative runtime risk assessment. PrivAgentShield formulates the Leakage Risk Index ($LRI^*$), combining message taint, recipient clearance, and downstream reachability into a minimax decision metric driving ALLOW, SANITIZE, and QUARANTINE actions without requiring SMT solving during message dispatch.
-
-\subsection{Agent Security and Prompt Injection}
-Multi-agent communication channels are susceptible to indirect prompt injection \cite{7}. Debenedetti et al. created AgentDojo \cite{2} to benchmark attacks such as tool hijacking and confused-deputy exploitation. Song et al. developed LeakAgent \cite{5}, employing reinforcement learning to automate memory extraction. Goyal et al. introduced AgentRisk \cite{9} for static risk scoring. PrivAgentShield leverages AgentDojo's test suites to validate runtime containment of adversarial injection payloads.
-
-\subsection{Sensitive Data Detection and Sanitization}
-Production sanitization relies on deterministic regular expressions and Named Entity Recognition (NER). Microsoft Presidio \cite{18} orchestrates rule catalogs and context-aware PII masking. GLiNER \cite{19} provides bidirectional transformer entity extraction, while Hyperscan \cite{20} delivers high-throughput regular expression matching via non-deterministic finite automata. PrivAgentShield incorporates these components into a multi-tiered inspection pipeline.
-
-\section{Research Gap and Contributions}
-\subsection{Research Gap}
-Existing literature addresses fragmented dimensions of multi-agent privacy:
-\begin{itemize}
-    \item Empirical benchmarks (e.g., AgentLeak, ConfAIde) demonstrate internal channel leakage but function as post-execution audit suites.
-    \item Flow enforcement frameworks (e.g., AgentFlow, LLMbda) introduce logic-based reference monitors or specialized calculi, focusing on binary flow invariant verification.
-    \item Sanitization tools (e.g., Presidio) detect entities in isolated text blocks, oblivious to agent authorization lattices and downstream execution topologies.
-    \item Boundary guardrails (e.g., Llama Guard, NeMo Guardrails) monitor perimeter boundaries, leaving intermediate agent exchanges unmonitored.
-\end{itemize}
-What is missing is a lightweight runtime mediation architecture that integrates:
-\begin{equation*}
-\left.
-\begin{aligned}
-    & T^*_m \text{ (Sensitivity)} \\
-    & \Delta^*_{ij} \text{ (Clearance)} \\
-    & \Pi^*_j \text{ (Topology)}
-\end{aligned}
-\right\} \longrightarrow LRI^* \longrightarrow \text{Action}
-\end{equation*}
-PrivAgentShield addresses this gap by formalizing a quantitative, topology-aware risk decision that informs runtime access and sanitization decisions.
-
-\subsection{Novelty and Contributions}
-PrivAgentShield does not claim to be the first runtime security system or information-flow engine. Instead, its defensible novelty lies in the unification of payload sensitivity, clearance dominance, and execution topology reachability into a single minimax metric that drives non-destructive runtime remediation.
-
-Our primary contributions are:
-\begin{enumerate}
-    \item \textbf{The Leakage Risk Index ($LRI^*$):} A non-compensatory formulation that prevents risk dilution, evaluating whether data sensitivity, recipient clearance mismatch, or downstream exposure warrants runtime intervention.
-    \item \textbf{Dynamic IFC-ABAC Runtime Architecture:} A mediation framework enforcing lattice-based clearances alongside attribute-based communication policies directly across internal agent interfaces.
-    \item \textbf{Cascaded Multi-Tier Inspection Engine:} A pipeline balancing efficiency and inspection depth by triaging traffic across compiled regex, named-entity extraction, and transformer-based probes.
-    \item \textbf{Session-Consistent Pseudonymization:} A context-preserving mechanism replacing sensitive entities with typed surrogate tokens, preventing reasoning degradation across multi-turn handoffs.
-    \item \textbf{Experimental Evaluation:} A benchmark evaluation establishing empirical bounds on leakage mitigation, latency overhead, and task reasoning preservation.
-\end{enumerate}
-
-\section{Threat Model and System Model}
-\subsection{System Model}
-We formalize a multi-agent system as a graph $G = (V, E)$ executed over an orchestration runtime (e.g., LangGraph \cite{21}, CrewAI \cite{22}, MetaGPT \cite{23}). Nodes are partitioned into:
-\begin{itemize}
-    \item \textbf{Transient Agent Nodes ($V_A$):} Coordinators and worker agents processing context and communicating over internal channels.
-    \item \textbf{Absorbing Sink Nodes ($V_S$):} Boundary egress points, including database write interfaces, external third-party API tools ($C_3$), public webhooks, and persistent loggers.
-\end{itemize}
-Every agent $v_j \in V_A$ is bound to a clearance attribute vector $C_j = \langle c_{j,1}, c_{j,2}, \dots, c_{j,|C|} \rangle$ defined over security lattice $(\mathcal{L}, \sqsubseteq)$, representing authorized access tiers across sensitive domains $\mathcal{C}$.
-
-\subsection{Threat Model}
-We assume the underlying foundation model weights are fixed and untrusted with respect to privacy preservation. An adversary may attempt unauthorized data exfiltration via:
-\begin{enumerate}
-    \item \textbf{Confused-Deputy Privilege Laundering:} Tricking a low-clearance agent into requesting confidential data from a high-clearance peer, forwarding the result to an unmonitored sink.
-    \item \textbf{Contextual Handoff Stripping:} Exploiting agent summarization routines that omit privacy disclaimers, causing unauthorized data dispersion \cite{4}.
-    \item \textbf{Indirect Prompt Injection:} Injecting malicious instructions via external inputs that compel agents to transmit sensitive records across internal edges \cite{7}.
-\end{enumerate}
-We assume the PrivAgentShield reverse proxy operates within a trusted computing base (TCB) where network traffic between agents is routed through the mediation proxy.
-
-% TABLE I: Comparative Study
 \begin{table*}[t]
-\caption{Comparative Study of Multi-Agent Security, Privacy Frameworks, and PrivAgentShield}
+\caption{Comparative Overview of Multi-Agent Security and Privacy Frameworks}
 \label{tab:comparative_study}
 \centering
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{lp{2.2cm}p{2.2cm}p{1.8cm}p{1.4cm}p{2.0cm}p{2.0cm}p{5.0cm}}
+\begin{tabular}{lp{2.2cm}p{2.2cm}p{1.5cm}p{1.6cm}p{2.0cm}p{5.5cm}}
 \toprule
-\textbf{Framework} & \textbf{Focus} & \textbf{Inspection} & \textbf{Enforce} & \textbf{Topology} & \textbf{Risk Quant.} & \textbf{Sanitization} & \textbf{Distinction / Limitation} \\
+\textbf{Framework} & \textbf{Focus} & \textbf{Inspection Scope} & \textbf{Enforcement} & \textbf{Topology} & \textbf{Sanitization} & \textbf{Key Characteristics / Distinction} \\
 \midrule
-Llama Guard \cite{15}, \cite{16} & Safety Moderation & Terminal I/O & Block & No & None & Static Taxonomies & Boundary-only; blind to internal channels ($C_2, C_3, C_5$). \\
-NeMo Guardrails \cite{17} & Dialog Rails & Boundary Dialogue & Alter Output & No & Not reported & Dialog Redirection & Colang Scripts; focuses on linear dialog paths. \\
-AgentLeak \cite{1} & Vulnerability Audit & Channels $C_1$--$C_7$ & Audit Mode & Yes & Leakage Rate & Eval. Masking & Diagnostic benchmark; does not provide inline mediation. \\
-AgentFlow \cite{3} & Flow Policy & Execution Edges & Abort/Release & Yes & SMT Verif. & Controlled Release & SMT Flow Invariants; formal verification focus. \\
-AgentDojo \cite{2} & Red-Teaming & Agent-Tool Loops & Benchmark & Yes & Attack Rate & None & Offensive testbed; lacks an inline runtime defense engine. \\
-ConfAIde \cite{6} & Context Privacy & Reasoning Traces & Evaluation & Implicit & Exposure Score & None & Analytical benchmark; lacks inline mediation controls. \\
-LeakAgent \cite{5} & Adv. Extraction & Memory ($C_5$) & Red-Teaming & No & Extraction Rate & None & Offensive RL system rather than a defensive proxy. \\
-AgentRisk \cite{9} & Compliance & Graph Traces & Batch Audit & Yes & Risk Metric & Batch Scrubbing & Batch-oriented compliance scoring; lacks sub-millisecond mediation. \\
-Presidio \cite{18} & PII Scrubbing & Text Buffers & Anonymize & No & Confidence & Redact/Mask & Text-level processing; lacks agent clearance and topology modeling. \\
-\textbf{PrivAgentShield} & \textbf{Runtime Mediation} & \textbf{Channels $C_2, C_3, C_5$} & \textbf{Tri-Action} & \textbf{Yes (Markov)} & \textbf{Unified $LRI^*$} & \textbf{Pseudonymization} & \textbf{Topology-aware quantitative runtime risk mediation via $LRI^*$.} \\
+Llama Guard \cite{15}, \cite{16} & Safety Moderation & Terminal I/O & Block & No & Static Taxonomies & Perimeter-only moderation; blind to internal channels ($C_2, C_3, C_5$). \\
+NeMo Guardrails \cite{17} & Dialog Rails & Boundary Dialogue & Alter Output & No & Redirection & Colang programmable dialog rails; linear conversation focus. \\
+AgentLeak \cite{1} & Vulnerability Audit & Channels $C_1$--$C_7$ & Audit Only & Yes & Eval Masking & Diagnostic evaluation benchmark; no inline runtime mediation. \\
+AgentFlow \cite{3} & Flow Policy & Execution Edges & Abort/Release & Yes & Controlled Release & SMT-based flow invariant verification on execution graphs. \\
+AgentDojo \cite{2} & Red-Teaming & Agent-Tool Loops & Benchmark & Yes & None & Dynamic attack benchmark evaluating prompt injection and tool exploitation. \\
+AgentRisk \cite{9} & Compliance & Graph Traces & Batch Audit & Yes & Batch Scrubbing & Quantitative graph-level compliance scoring in batch audit mode. \\
+Presidio \cite{18} & PII Scrubbing & Text Buffers & Anonymize & No & Redact / Mask & Text-level scrubbing; lacks agent clearance and topology modeling. \\
+\textbf{PrivAgentShield} & \textbf{Runtime Mediation} & \textbf{Channels $C_2, C_3, C_5$} & \textbf{Tri-Action} & \textbf{Yes (Markov)} & \textbf{Pseudonymization} & \textbf{Inline topology-aware runtime mediation via minimax $LRI^*$.} \\
 \bottomrule
 \end{tabular}%
 }
 \end{table*}
 
-\section{PrivAgentShield Architecture}
-PrivAgentShield deploys as an inline, zero-overhead reverse proxy intercepting inter-agent communication. It operates across three core modules:
+\section{System Model and Threat Model}
+\subsection{System Model}
+We model a multi-agent system as a directed execution graph $G = (V, E)$, where nodes $V = V_A \cup V_S$ are partitioned into:
+\begin{itemize}
+    \item \textbf{Transient Agent Nodes ($V_A$):} Autonomous LLM agents that process contextual prompts, deliberate, and exchange intermediate messages.
+    \item \textbf{Absorbing Sink Nodes ($V_S$):} Boundary egress points, including database write interfaces, external third-party API tool executions ($C_3$), and persistent logging sinks.
+\end{itemize}
+Each agent $v_j \in V_A$ is associated with an authorization clearance vector $C_j = \langle c_{j,1}, c_{j,2}, \dots, c_{j,|\mathcal{C}|} \rangle$ defined over an information-flow security lattice $(\mathcal{L}, \sqsubseteq)$, representing access privileges across sensitive data categories $\mathcal{C}$.
+
+\subsection{Threat Model}
+We assume that underlying foundation model weights are fixed and untrusted with respect to privacy guarantees. An adversary may attempt unauthorized data exfiltration through:
 \begin{enumerate}
-    \item \textbf{Cascaded Inspection Pipeline:} Intercepted payloads are parsed across three tiers:
-    \begin{itemize}
-        \item \textit{Tier 1 (Compiled Automata \& Entropy):} Regex pattern matching and Shannon entropy calculations identify formatted PII (SSNs, IBANs) and authentication secrets.
-        \item \textit{Tier 2 (Statistical NER):} Statistical NER detectors extract unstructured sensitive entities (person names, diagnostic terms).
-        \item \textit{Tier 3 (Transformer Probes):} Lightweight classifiers evaluate ambiguous payloads for indirect prompt injections.
-    \end{itemize}
-    \item \textbf{LRI Risk Engine:} Computes $T^*_m$, verifies clearance dominance $\Delta^*_{ij}$, and determines graph reachability $\Pi^*_j$ via an absorbing Markov chain solver.
-    \item \textbf{Remediation Dispatcher:} Enforces deterministic access boundaries via ALLOW, SANITIZE, or QUARANTINE actions.
+    \item \textbf{Confused-Deputy Exploitation:} A low-clearance agent requests confidential records from a high-clearance peer, subsequently routing the output to an unmonitored external sink.
+    \item \textbf{Contextual Handoff Stripping:} Intermediate context compression omits privacy metadata while retaining sensitive payload data across agent handoffs \cite{4}.
+    \item \textbf{Indirect Prompt Injection:} Malicious external payloads compel compromised agents to transmit confidential variables across internal channels \cite{7}.
 \end{enumerate}
+We assume the PrivAgentShield proxy resides within a trusted computing base (TCB) where inter-agent communications are routed through the mediation gateway.
 
-\section{Topology-Aware Leakage Risk Index ($LRI^*$)}
-The central analytical contribution of PrivAgentShield is the Leakage Risk Index ($LRI^*$), a non-compensatory metric designed to eliminate risk dilution.
+\section{PrivAgentShield Architecture and Methodology}
+PrivAgentShield operates as an inline reverse proxy that intercepts intermediate payloads across agent communication edges $e_{ij} = (v_i, v_j) \in E$. The architecture comprises three coordinated stages: cascaded inspection, risk formulation, and runtime enforcement.
 
-\subsection{Message Taint Metric ($T^*_m$)}
-Given detected entities $\mathcal{E}_m = \{e_1, e_2, \dots, e_K\}$, payload taint $T^*_m$ is defined as:
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+    node distance=0.28cm and 0.4cm,
+    box/.style={draw=black!70, rounded corners=2pt, line width=0.55pt, align=center, font=\tiny, fill=white, inner sep=2pt},
+    proc/.style={box, fill=blue!6, draw=blue!60},
+    gate/.style={box, fill=purple!6, draw=purple!60},
+    actallow/.style={box, fill=green!10, draw=green!60!black, font=\bfseries\tiny},
+    actsan/.style={box, fill=yellow!15, draw=yellow!60!black, font=\bfseries\tiny},
+    actquar/.style={box, fill=red!10, draw=red!60!black, font=\bfseries\tiny},
+    agent/.style={box, fill=gray!12, draw=gray!70, font=\bfseries\tiny},
+    arrow/.style={-{Stealth[scale=0.7]}, line width=0.55pt, draw=black!75}
+]
+
+% Row 1: Source & Three Inspection Tiers
+\node[agent] (src) {\textbf{Source Agent $v_i$}\\[0.5pt]Context / Payload $m$};
+\node[proc, right=0.45cm of src, minimum width=2.4cm] (t1) {\textbf{Tier 1: Automata \& Entropy}\\[0.5pt]Compiled Regex / Shannon $H(e)$};
+\node[proc, right=0.3cm of t1, minimum width=2.4cm] (t2) {\textbf{Tier 2: Statistical NER}\\[0.5pt]Entity Extraction $\mathcal{E}_m$};
+\node[proc, right=0.3cm of t2, minimum width=2.4cm] (t3) {\textbf{Tier 3: Transformer Probe}\\[0.5pt]Injection / Ambiguity Filter};
+
+% Row 2: Evaluation Factors
+\node[gate, below=0.25cm of t1, minimum width=2.4cm] (taint) {\textbf{Sensitivity Taint $T^*_m$}\\[0.5pt]Severity Weights $s^*(e) \cdot \omega(e)$};
+\node[gate, below=0.25cm of t2, minimum width=2.4cm] (abac) {\textbf{Lattice Clearance $\Delta^*_{ij}$}\\[0.5pt]Strict Partial Order $R_m \sqsubseteq C_j$};
+\node[gate, below=0.25cm of t3, minimum width=2.4cm] (markov) {\textbf{Markov Reachability $\Pi^*_j$}\\[0.5pt]Absorbing Sinks $\max [(I-Q)^{-1}R]$};
+
+% Row 3: Unified Engine
+\node[box, fill=blue!12, draw=blue!80, below=0.25cm of abac, minimum width=7.8cm, inner sep=2.5pt] (lri) 
+    {\textbf{Unified Minimax Risk Engine: } $LRI^*(v_i, v_j, m) = \max\left(\Delta^*_{ij}(m), \; T^*_m \cdot \Pi^*_j\right)$};
+
+% Row 4: Tri-Action Policies
+\node[actallow, below left=0.25cm and 0.1cm of lri, minimum width=2.3cm] (allow) {\textbf{ALLOW} ($LRI^* < 0.30$)\\[0.5pt]Unaltered Payload Forward};
+\node[actsan, below=0.25cm of lri, minimum width=2.6cm] (san) {\textbf{SANITIZE} ($0.30 \le LRI^* < 0.70$)\\[0.5pt]Session Pseudonym $[TYPENAME\_UUID]$};
+\node[actquar, below right=0.25cm and 0.1cm of lri, minimum width=2.3cm] (quar) {\textbf{QUARANTINE} ($LRI^* \ge 0.70$)\\[0.5pt]Channel Severed \& Audit Logged};
+
+% Row 5: Destinations
+\node[agent, below=0.2cm of allow, minimum width=2.3cm] (dst) {\textbf{Target Agent $v_j$}\\[0.5pt]Verified Ingest};
+\node[box, fill=gray!12, draw=gray!70, below=0.2cm of san, minimum width=2.6cm] (tool) {\textbf{Downstream Tool / Memory}\\[0.5pt]Coreference Preserved};
+\node[box, fill=red!6, draw=red!50, below=0.2cm of quar, minimum width=2.3cm] (sink) {\textbf{Audit Log / Isolation}\\[0.5pt]Human Investigation};
+
+% Container Box for Mediation Proxy
+\begin{scope}[on background layer]
+    \node[draw=blue!40, dashed, fill=blue!2, rounded corners=3pt, line width=0.55pt, 
+          fit=(t1) (t3) (taint) (markov) (lri), inner sep=3pt] (proxybox) {};
+    \node[above right, font=\tiny\bfseries, text=blue!80] at (proxybox.north west) {PrivAgentShield Inline Runtime Mediation Layer};
+\end{scope}
+
+% Connections
+\draw[arrow] (src) -- (t1);
+\draw[arrow] (t1) -- (t2);
+\draw[arrow] (t2) -- (t3);
+\draw[arrow] (t1) -- (taint);
+\draw[arrow] (t2) -- (abac);
+\draw[arrow] (t3) -- (markov);
+\draw[arrow] (taint) -- ($(lri.north -| taint)$);
+\draw[arrow] (abac) -- (lri.north);
+\draw[arrow] (markov) -- ($(lri.north -| markov)$);
+
+\draw[arrow] (lri.south -| allow) -- (allow);
+\draw[arrow] (lri.south) -- (san);
+\draw[arrow] (lri.south -| quar) -- (quar);
+
+\draw[arrow] (allow) -- (dst);
+\draw[arrow] (san) -- (tool);
+\draw[arrow] (quar) -- (sink);
+
+\end{tikzpicture}
+\caption{Proposed PrivAgentShield runtime mediation architecture illustrating the three-tier cascaded inspection pipeline, information-flow clearance checking, absorbing Markov topology reachability calculation, and deterministic tri-action policy enforcement.}
+\label{fig:architecture}
+\end{figure*}
+
+\subsection{Cascaded Inspection Engine}
+To balance throughput with detection coverage, intercepted payloads are evaluated across three cascaded tiers:
+\begin{itemize}
+    \item \textbf{Tier 1 (Compiled Automata \& Shannon Entropy):} High-speed regular expressions identify structured identifiers (e.g., SSNs, credit card numbers, IBANs). Concurrently, token-level empirical Shannon entropy detects unstructured high-entropy credentials (e.g., API keys, private tokens).
+    \item \textbf{Tier 2 (Statistical NER):} Lightweight statistical entity extractors identify unstructured domain entities, including individual names, corporate identifiers, and diagnostic terminology.
+    \item \textbf{Tier 3 (Transformer Probes):} Selective transformer-based classifiers inspect ambiguous or flagged payloads for adversarial prompt injections.
+\end{itemize}
+
+\subsection{Topology-Aware Leakage Risk Index ($LRI^*$)}
+The core analytical component of PrivAgentShield is the Leakage Risk Index ($LRI^*$), a non-compensatory minimax metric unifying message taint, clearance dominance, and downstream egress reachability.
+
+\subsubsection{Message Taint Metric ($T^*_m$)}
+For a set of detected entities $\mathcal{E}_m = \{e_1, e_2, \dots, e_K\}$ in message $m$, payload taint $T^*_m \in [0, 1]$ is computed as:
 \begin{equation}
 T^*_m = \min \left( 1.0, \sum_{k=1}^K s^*(e_k) \cdot \omega(e_k) \right)
 \end{equation}
-where $s^*(e_k) \in (0, 1]$ designates statutory severity weights mapped to data categories ($L_1 = 0.1, L_2 = 0.3, L_3 = 0.7, L_4 = 1.0$) and $\omega(e_k)$ represents an entropy modulator:
+where $s^*(e_k) \in (0, 1]$ represents design-defined severity weights assigned to data categories ($L_1 = 0.1$ for low-sensitivity public data, $L_2 = 0.3$ for internal operational data, $L_3 = 0.7$ for personal data, and $L_4 = 1.0$ for critical credentials). The entropy modulator $\omega(e_k)$ is defined as:
 \begin{equation}
 \omega(e_k) = \begin{cases} 
 \dfrac{H(e_k)}{H_{\max}}, & \text{if } e_k \in \mathcal{S}_{\text{secret}} \\ 
 1.0, & \text{if } e_k \in \mathcal{S}_{\text{struct}} 
 \end{cases}
 \end{equation}
-Here, $\mathcal{S}_{\text{secret}}$ denotes unstructured credentials where empirical Shannon entropy $H(e_k)$ distinguishes actual credentials from random text, while $\mathcal{S}_{\text{struct}}$ denotes structured identifiers (e.g., SSNs, medical record numbers).
+where $H(e_k)$ is empirical Shannon entropy, $H_{\max}$ is maximum byte entropy, $\mathcal{S}_{\text{secret}}$ denotes unstructured credential candidates, and $\mathcal{S}_{\text{struct}}$ denotes structured identifiers.
 
-\subsection{Lattice Clearance Dominance ($\Delta^*_{ij}$)}
-Access authorization is modeled over an information flow lattice $(\mathcal{L}, \sqsubseteq)$. Given payload sensitivity classification vector $R_m$ and recipient clearance vector $C_j$ across categories $c \in \mathcal{C}$:
+\subsubsection{Lattice Clearance Dominance ($\Delta^*_{ij}$)}
+Given payload sensitivity classification vector $R_m$ and recipient clearance vector $C_j$ across categories $c \in \mathcal{C}$, clearance dominance is defined as:
 \begin{equation}
 \Delta^*_{ij}(m) = \begin{cases} 
 1.0, & \text{if } \exists c \in \mathcal{C} : R_{m,c} \not\sqsubseteq C_{j,c} \\ 
 0.0, & \text{if } \forall c \in \mathcal{C} : R_{m,c} \sqsubseteq C_{j,c} 
 \end{cases}
 \end{equation}
-Equation (3) enforces strict partial-order dominance: an authorization deficiency in any single category triggers an immediate clearance violation barrier.
+Equation~(3) establishes strict partial-order enforcement: an authorization deficit in any single category triggers an immediate clearance violation barrier ($\Delta^*_{ij} = 1.0$).
 
-\subsection{Downstream Path Exposure Factor ($\Pi^*_j$)}
-Downstream exposure is computed over execution graph $G$ via absorbing Markov chains \cite{14}. The transition matrix $P$ is partitioned into transient agent interactions $Q \in \mathbb{R}^{|V_A| \times |V_A|}$ and egress transitions to absorbing sinks $R \in \mathbb{R}^{|V_A| \times |V_S|}$:
+\subsubsection{Downstream Path Exposure ($\Pi^*_j$)}
+We model communication reachability over execution graph $G$ using absorbing Markov chains \cite{14}. The transition matrix $P$ is structured as:
 \begin{equation}
 P = \begin{bmatrix} Q & R \\ \mathbf{0} & I \end{bmatrix}, \quad N = (I - Q)^{-1}
 \end{equation}
-where $N$ is the fundamental matrix. The absorption probability matrix $B = NR$ defines the likelihood that execution entering node $v_j$ reaches an unmonitored external sink $s \in V_S$:
+where $Q \in \mathbb{R}^{|V_A| \times |V_A|}$ describes transient agent transitions, $R \in \mathbb{R}^{|V_A| \times |V_S|}$ represents transitions to absorbing sinks, and $N$ is the fundamental matrix. The absorption probability matrix $B = NR$ defines the likelihood of reaching an unmonitored external sink $s \in V_S$ starting from agent $v_j$:
 \begin{equation}
 \Pi^*_j = \max_{s \in V_S} \left[ (I - Q)^{-1} R \right]_{j,s}
 \end{equation}
 
-\subsection{Unified Minimax Risk Index ($LRI^*$)}
-Linear combinations of security variables risk compensatory dilution, where low path exposure could mathematically offset an unauthorized access attempt. PrivAgentShield resolves this vulnerability using a minimax formulation:
+\subsubsection{Unified Minimax Risk Index ($LRI^*$)}
+To prevent compensatory dilution---wherein low path exposure might erroneously mask an unauthorized access attempt---PrivAgentShield combines clearance and reachability via a minimax formulation:
 \begin{equation}
 LRI^*(v_i, v_j, m) = \max \left( \Delta^*_{ij}(m), \; T^*_m \cdot \Pi^*_j \right)
 \end{equation}
 
-\textbf{Why Topology Matters:} Consider two transactions transmitting identical patient records ($T^*_m = 1.0$) to authorized agents ($\Delta^*_{ij} = 0.0$).
-\begin{itemize}
-    \item In Transaction 1, the recipient agent communicates exclusively with internal summarizers with low external sink exposure ($\Pi^*_1 = 0.05$), yielding $LRI^* = 0.05$ (ALLOW).
-    \item In Transaction 2, the recipient coordinates an automated webhook dispatching tool with high egress sink probability ($\Pi^*_2 = 0.85$), yielding $LRI^* = 0.85$ (QUARANTINE).
-\end{itemize}
-Evaluating message sensitivity alone would treat these transactions identically. Incorporating downstream topology enables PrivAgentShield to differentiate between contained internal exchanges and high-exposure egress workflows.
+\textit{Illustrative Topology Example:} Consider transmitting a sensitive record ($T^*_m = 1.0$) to an authorized internal agent ($\Delta^*_{ij} = 0.0$). If the recipient communicates only with internal summarizers ($\Pi^*_1 = 0.05$), the resulting risk is $LRI^* = 0.05$ (ALLOW). If the recipient dispatches tasks to an external webhook tool ($\Pi^*_2 = 0.85$), the resulting risk is $LRI^* = 0.85$ (QUARANTINE). Incorporating graph topology enables differentiating between contained internal flows and exposed egress pathways.
 
-\section{Runtime Enforcement}
-PrivAgentShield executes deterministic actions governed by calibrated operational thresholds $\tau_{\text{low}}$ and $\tau_{\text{high}}$:
+\subsection{Runtime Enforcement and Pseudonymization}
+PrivAgentShield executes deterministic actions governed by operational thresholds $\tau_{\text{low}}$ and $\tau_{\text{high}}$:
 \begin{equation}
 \text{Action}(m) = \begin{cases} 
 \text{ALLOW}(m), & LRI^* < \tau_{\text{low}} \\ 
@@ -262,92 +303,59 @@ PrivAgentShield executes deterministic actions governed by calibrated operationa
 \text{QUARANTINE}(v_i), & LRI^* \ge \tau_{\text{high}} 
 \end{cases}
 \end{equation}
-
-\subsection{ALLOW}
-The payload contains either negligible sensitive taint or flows into an execution subgraph with minimal sink exposure. The message is forwarded unaltered across edge $e_{ij}$.
-
-\subsection{SANITIZE}
-Rather than applying destructive masking (e.g., replacement with ***) that can disrupt language model reasoning, PrivAgentShield performs session-consistent pseudonymization. Detected entities are mapped to typed surrogate identifiers maintained within an ephemeral session dictionary $\mathcal{M}$:
-\begin{equation}
-e_k \mapsto \mathcal{M}[e_k] = \texttt{"[TYPENAME\_"} \parallel \texttt{UUID} \parallel \texttt{"]"}
-\end{equation}
-Mappings remain stable across multi-turn exchanges within the same session, enabling downstream agents to maintain entity coreference without accessing plaintext values.
-
-\subsection{QUARANTINE}
-When $LRI^* \ge \tau_{\text{high}}$---indicating an unauthorized clearance deficit or high-taint transmission into an exposed egress sink---the channel is severed. The proxy halts message dispatch, triggers state rollback for $v_i$, and generates an audit log entry for human-in-the-loop inspection.
-
-\section{Implementation}
-\subsection{Reverse-Proxy Architecture}
-The reference implementation of PrivAgentShield is engineered as a zero-overhead runtime proxy for multi-agent workflows. Intercepted payloads are parsed for sender-recipient metadata, graph topologies are updated dynamically, and $LRI^*$ is computed inline prior to forwarding requests to backend model endpoints.
-
-\subsection{Live Telemetry Dashboard}
-An accompanying web platform provides visibility into runtime execution:
 \begin{itemize}
-    \item \textbf{Dynamic Graph Rendering:} Visualizes active agent graphs using React Flow, color-coding edges by risk state (Green: ALLOW, Amber: SANITIZE, Red: QUARANTINE).
-    \item \textbf{Live Payload Diffing:} Displays side-by-side comparisons of raw intercepted prompts against pseudonymized outputs.
-    \item \textbf{Statutory Compliance Mapping:} Logs prevented exfiltrations against GDPR, HIPAA, and EU AI Act regulatory indices.
+    \item \textbf{ALLOW:} The payload is forwarded unaltered across edge $e_{ij}$.
+    \item \textbf{SANITIZE:} To avoid syntax disruption caused by destructive masking (e.g., replacement with asterisks), PrivAgentShield applies session-consistent pseudonymization. Detected entities are mapped to typed surrogate identifiers stored in an ephemeral session table $\mathcal{M}$:
+    \begin{equation}
+    e_k \mapsto \mathcal{M}[e_k] = \texttt{"[TYPENAME\_"} \parallel \texttt{UUID} \parallel \texttt{"]"}
+    \end{equation}
+    Surrogate mappings remain consistent across multi-turn handoffs in the same session, enabling downstream agents to maintain entity coreference without plaintext access.
+    \item \textbf{QUARANTINE:} When $LRI^* \ge \tau_{\text{high}}$, message dispatch is blocked, the sender is notified, and an immutable audit event is logged.
 \end{itemize}
 
-\subsection{Software Availability}
-The full PrivAgentShield runtime mediation proxy, experimental evaluation harness, and reproducibility artifacts are openly available at:
-\begin{itemize}
-    \item \textbf{Code Repository:} \url{https://github.com/Charan359/PrivAgentShield}
-    \item \textbf{Demonstration Dashboard:} \url{https://priv-agent-shield-bice.vercel.app/}
-\end{itemize}
+\subsection{System Data Flow}
+The end-to-end message mediation pipeline operates across the sequential stages illustrated in Fig.~\ref{fig:dataflow}.
 
-\section{Experimental Methodology}
-To evaluate PrivAgentShield empirically without relying on preliminary claims, we detail the evaluation protocol designed to measure privacy preservation, system overhead, and agent task reasoning.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    box/.style={draw=blue!70, fill=blue!4, rounded corners=2pt, font=\tiny\bfseries, align=center, inner sep=2.5pt, minimum width=7.4cm, minimum height=0.4cm},
+    calcbox/.style={draw=purple!70, fill=purple!4, rounded corners=2pt, font=\tiny\bfseries, align=center, inner sep=2.5pt, minimum width=7.4cm, minimum height=0.4cm},
+    decbox/.style={draw=blue!80, fill=blue!12, rounded corners=2pt, font=\tiny\bfseries, align=center, inner sep=2.5pt, minimum width=7.4cm, minimum height=0.4cm},
+    actbox/.style={draw=green!60!black, fill=green!6, rounded corners=2pt, font=\tiny\bfseries, align=center, inner sep=2.5pt, minimum width=7.4cm, minimum height=0.4cm},
+    outbox/.style={draw=gray!70, fill=gray!8, rounded corners=2pt, font=\tiny\bfseries, align=center, inner sep=2.5pt, minimum width=7.4cm, minimum height=0.4cm},
+    arrow/.style={-{Stealth[scale=0.75]}, line width=0.6pt, draw=black!75}
+]
 
-\subsection{Evaluation Benchmarks}
-\begin{enumerate}
-    \item \textbf{AgentLeak Benchmark Suite \cite{1}:} Multi-turn traces across medical diagnosis, legal contract negotiation, financial analysis, and enterprise HR workflows. We evaluate channels $C_2$ (inter-agent messages), $C_3$ (tool execution calls), and $C_5$ (shared memory access).
-    \item \textbf{AgentDojo Adversarial Suite \cite{2}:} Adversarial test cases incorporating prompt injection, tool hijacking, and confused-deputy scenarios across enterprise tool suites.
-\end{enumerate}
+\node[box] (s1) {1. Source Agent $v_i$ $\longrightarrow$ Inline Proxy Interception};
+\node[box, below=0.15cm of s1] (s2) {2. Cascaded Inspection (Tiers 1--3: Regex, Entropy, Statistical NER, Probes)};
+\node[calcbox, below=0.15cm of s2] (s3) {3. Sensitivity Taint ($T^*_m$) \& Lattice Clearance Dominance ($\Delta^*_{ij}$)};
+\node[calcbox, below=0.15cm of s3] (s4) {4. Downstream Markov Reachability ($\Pi^*_j = \max [(I-Q)^{-1}R]$)};
+\node[decbox, below=0.15cm of s4] (s5) {5. Minimax Risk Index Evaluation: $LRI^* = \max(\Delta^*_{ij}, \; T^*_m \cdot \Pi^*_j)$};
+\node[actbox, below=0.15cm of s5] (s6) {6. Deterministic Policy Gate (ALLOW / SANITIZE / QUARANTINE)};
+\node[outbox, below=0.15cm of s6] (s7) {7. Target Agent $v_j$ / Downstream Tool / Isolation Sink};
 
-\subsection{Baseline Frameworks}
-\begin{itemize}
-    \item \textbf{Baseline 1 (No Protection):} Default multi-agent execution without mediation.
-    \item \textbf{Baseline 2 (Output-Only Boundary Guardrail):} Terminal perimeter filtering via Llama Guard 3 \cite{16}.
-    \item \textbf{Baseline 3 (Deterministic Sanitization):} PII entity scrubbing via Presidio \cite{18} applied uniformly to all messages without access control or reachability weighting.
-    \item \textbf{Baseline 4 (IFC/ABAC Without Topology Awareness):} Runtime clearance verification utilizing only $\Delta^*_{ij}(m)$ and $T^*_m$, omitting the reachability factor $\Pi^*_j$.
-    \item \textbf{Proposed System:} Full PrivAgentShield runtime mediation engine.
-\end{itemize}
+\draw[arrow] (s1) -- (s2);
+\draw[arrow] (s2) -- (s3);
+\draw[arrow] (s3) -- (s4);
+\draw[arrow] (s4) -- (s5);
+\draw[arrow] (s5) -- (s6);
+\draw[arrow] (s6) -- (s7);
 
-\subsection{Topology-Aware Controlled Experiment}
-To evaluate whether topology reachability provides actionable security information beyond message sensitivity alone, we define two comparative execution topologies handling identical sensitive payloads:
-\begin{itemize}
-    \item \textbf{Scenario A (Contained Path):} Agent A $\to$ Authorized Agent B $\to$ Internal Storage (Sink $s_{\text{isolated}}$). With SSN and Diagnostic payload ($T^*_m = 1.0$, $\Delta^*_{AB} = 0.0$) and sink reachability $\Pi^*_B = 0.05$, expected $LRI^* = 0.05$, resulting in ALLOW.
-    \item \textbf{Scenario B (High-Exposure Path):} Agent A $\to$ Authorized Agent B $\to$ Agent C $\to$ External Webhook (Sink $s_{\text{egress}}$). With identical payload ($T^*_m = 1.0$, $\Delta^*_{AB} = 0.0$) and sink reachability $\Pi^*_B = 0.85$, expected $LRI^* = 0.85$, resulting in QUARANTINE.
-\end{itemize}
+\end{tikzpicture}
+\caption{Sequential system data-flow pipeline from source interception to policy-gated dispatch.}
+\label{fig:dataflow}
+\end{figure}
 
-\subsection{Evaluation Metrics}
-Measurements are organized across four categories:
-\begin{itemize}
-    \item \textbf{Security \& Mitigation:} Leakage Rate ($LR$), Prevention Rate ($PR = 1 - LR$), Attack Success Rate ($ASR$), Precision, Recall, F1-Score, and False Positive Rate ($FPR$).
-    \item \textbf{Performance Overhead:} Median and P95 latency across tiers, system throughput (tokens/sec and requests/sec).
-    \item \textbf{Downstream Utility:} Task Completion Rate ($TCR$), semantic reasoning preservation.
-    \item \textbf{Risk Model Evaluation:} Empirical correlation between $LRI^*$ values and actual sink leakage.
-\end{itemize}
+\section{Experimental Evaluation}
+\subsection{Experimental Setup}
+We evaluated PrivAgentShield on a multi-agent security benchmark comprising 31 labeled execution traces across ten distinct attack scenarios (S1--S10) and safe cooperative baselines. The experimental harness incorporates inter-agent messages ($C_2$), tool execution calls ($C_3$), and shared memory interactions ($C_5$) within its simulation framework. In accordance with the reporting scope of the evaluated traces, quantitative leakage metrics are reported for channels $C_2$ and $C_3$. Operational thresholds were configured at $\tau_{\text{low}} = 0.30$ and $\tau_{\text{high}} = 0.70$.
 
-\subsection{Ablation Study Plan}
-We define five ablation configurations:
-\begin{itemize}
-    \item \textbf{Config A (Full Engine):} Full PrivAgentShield pipeline with all components enabled.
-    \item \textbf{Config B (No-LRI):} Without $LRI^*$ decision logic (binary threshold filtering).
-    \item \textbf{Config C (No-TOPO):} $LRI^*$ without topology reachability ($\Pi^*_j = 1.0$ for all nodes).
-    \item \textbf{Config D (Destructive Mask):} Full $LRI^*$ utilizing destructive entity masking (***) instead of session-consistent pseudonymization.
-    \item \textbf{Config E (Single-Tier):} Single-tier semantic inspection (omitting Tier 1 fast-path).
-\end{itemize}
+\subsection{Baseline Comparisons}
+We evaluated PrivAgentShield against four baseline configurations: \textbf{Baseline 1 (No Protection)} without runtime mediation \cite{1}; \textbf{Baseline 2 (Llama Guard 3)} terminal perimeter moderation \cite{16}; \textbf{Baseline 3 (Presidio Uniform)} uniform PII entity scrubbing without access control or reachability weighting \cite{18}; and \textbf{Baseline 4 (IFC w/o Topology)} clearance verification using $\Delta^*_{ij}$ and $T^*_m$ without reachability factor $\Pi^*_j$.
 
-\subsection{Threshold Sensitivity Analysis}
-Operational thresholds $\tau_{\text{low}}$ and $\tau_{\text{high}}$ are evaluated across dynamic ranges ($\tau_{\text{low}} \in [0.10, 0.35]$, $\tau_{\text{high}} \in [0.55, 0.85]$) to evaluate trade-off curves between leakage prevention, false-positive sanitization, and task disruption.
-
-\section{Results}
-We empirically evaluated PrivAgentShield across a multi-agent security benchmark comprising 31 labeled execution traces spanning ten distinct attack scenarios (S1--S10) and safe cooperative baselines. The experimental harness intercepted communication over inter-agent channels ($C_2$), tool execution loops ($C_3$), and shared memory handoffs ($C_5$). As detailed in Table~\ref{tab:benchmark_eval}, PrivAgentShield achieves a 65.0\% privacy violation prevention rate with 74.2\% task completion preservation, maintaining an average operational latency of 1.66\,ms per mediated transaction.
-
-% TABLE II: Benchmark Evaluation Metrics
 \begin{table}[htbp]
-\caption{Benchmark Evaluation Metrics on Multi-Agent Traces}
+\caption{Benchmark Evaluation on Multi-Agent Traces}
 \label{tab:benchmark_eval}
 \centering
 \resizebox{\columnwidth}{!}{%
@@ -365,9 +373,13 @@ Baseline 4: IFC w/o Topology & 58.3\% & 61.7\% & 68.0\% \\
 }
 \end{table}
 
-% TABLE III: Ablation Study Matrix
+As shown in Table~\ref{tab:benchmark_eval}, unmediated execution (Baseline 1) exhibits high internal leakage rates of 78.4\% on inter-agent messages ($C_2$) and 85.2\% on tool calls ($C_3$). Terminal perimeter filtering (Baseline 2) achieves modest reductions (62.1\% on $C_2$, 74.5\% on $C_3$) due to its blindness to internal channels. Uniform PII scrubbing (Baseline 3) lowers leakage but reduces Task Completion Rate ($TCR$) to 61.2\% due to context disruption. PrivAgentShield achieves lower leakage rates (35.0\% on $C_2$, 31.2\% on $C_3$) while preserving a 74.2\% task completion rate.
+
+\subsection{Ablation Analysis}
+To evaluate individual components, we examined five configurations: \textbf{Config A (Full Engine)} with the complete pipeline; \textbf{Config B (No-LRI)} using binary threshold filtering without $LRI^*$; \textbf{Config C (No-TOPO)} without topology reachability ($\Pi^*_j = 1.0$); \textbf{Config D (Destructive Mask)} replacing pseudonymization with static asterisks (***); and \textbf{Config E (Single-Tier)} omitting Tier 1 fast-path automata.
+
 \begin{table}[htbp]
-\caption{Ablation Study Matrix: Security and Utility Trade-offs}
+\caption{Ablation Study: Security and Utility Measurements}
 \label{tab:ablation_results}
 \centering
 \resizebox{\columnwidth}{!}{%
@@ -385,54 +397,42 @@ Config E: Single-Tier Semantic & 65.0\% & 36.4\% & 67.7\% \\
 }
 \end{table}
 
+The measured ablation results in Table~\ref{tab:ablation_results} highlight the operational trade-offs across configurations. Omitting the $LRI^*$ formulation (Config B) yields a lower prevention rate (55.0\%) and higher false positive rate (42.1\%). Disabling topology reachability (Config C) produces a higher prevention rate (75.0\%) but increases false positives to 54.5\% by over-quarantining contained internal exchanges. Destructive masking (Config D) achieves equivalent leakage prevention (65.0\%) but degrades task completion from 74.2\% to 51.6\%, underscoring the benefit of session-consistent pseudonymization.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\columnwidth]{ablation_chart.png}
-\caption{Empirical trade-off across ablation configurations. Omitting Information Flow Control (NO-IFC) spikes leakage to 60.0\%, while destructive masking reduces downstream LLM task completion to 51.6\%.}
-\label{fig:ablation_chart}
+\caption{Ablation Study: Leakage vs. Task Completion}
+\label{fig:ablation}
 \end{figure}
+
+\subsection{Operational Latency}
+We measured inline processing latency across mediated transactions. The mediation proxy demonstrated a mean operational latency of 1.66\,ms, with a P95 latency of 4.87\,ms and a P99 latency of 14.88\,ms, supporting real-time inter-agent messaging without prohibitive dispatch overhead.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85\columnwidth]{latency_chart.png}
-\caption{Inline proxy processing latency distribution. Over 95\% of mediation decisions execute in under 4.87\,ms, demonstrating sub-millisecond overhead.}
-\label{fig:latency_chart}
+\includegraphics[width=\columnwidth]{latency_chart.png}
+\caption{System Latency Distribution}
+\label{fig:latency}
 \end{figure}
 
-\section{Discussion}
-Runtime security mediation in multi-agent workflows introduces an inherent trade-off between privacy enforcement and task performance. Intercepting communication at intermediate agent interfaces mitigates internal channel exposure that bypasses boundary moderation models.
+\section{Discussion and Limitations}
+\subsection{Discussion}
+The experimental results demonstrate that runtime privacy mediation in multi-agent workflows requires balancing security enforcement against collaborative task completion. Perimeter guardrails remain insufficient because intermediate reasoning handoffs and tool arguments routinely bypass terminal filters. By coupling lattice clearance dominance with absorbing Markov reachability, PrivAgentShield differentiates contained internal communications from high-exposure egress pathways. Furthermore, session-consistent pseudonymization preserves syntactic structure, mitigating reasoning failures associated with standard destructive redaction.
 
-While AgentFlow demonstrates the utility of flow-centric invariant tracking \cite{3}, its reliance on SMT constraint solvers introduces computational overhead that may constrain low-latency agent coordination. PrivAgentShield approaches this challenge by formalizing a quantitative risk index ($LRI^*$) evaluated inline via absorbing Markov chains.
-
-Furthermore, our focus on session-consistent pseudonymization addresses the utility degradation common in naive redaction tools. Downstream agents frequently experience reasoning failures when encountering masked tokens (e.g., *** or [REDACTED]), whereas typed surrogate identifiers allow agents to preserve entity coreference throughout multi-step reasoning processes.
-
-\section{Limitations and Threats to Validity}
 \subsection{Limitations}
-\begin{enumerate}
-    \item \textbf{Detector Quality Dependence:} PrivAgentShield relies on the underlying accuracy of its entity detection engines (Hyperscan, GLiNER, Presidio). Unrecognized entity classes or novel credential formats can lead to understated taint values ($T^*_m$).
-    \item \textbf{Obfuscation and Encoding Attacks:} Adversarial agents employing Base64 encoding, cipher routines, or semantic obfuscation may evade regular expression and lightweight NER detectors, requiring deeper transformer probe inspection.
-    \item \textbf{Graph Reconstruction Overhead:} In systems characterized by non-deterministic agent generation, dynamically recomputing fundamental matrix $N = (I - Q)^{-1}$ introduces minor computational overhead.
-    \item \textbf{Markov Transition Assumptions:} Modeling execution reachability via absorbing Markov chains assumes agent routing probabilities can be estimated from system traces, which may vary under dynamic operational conditions.
-    \item \textbf{Reasoning Distortion:} While pseudonymization preserves syntax better than destructive masking, replacement tokens may subtly influence LLM reasoning in domain-specific tasks.
-\end{enumerate}
+\textit{1) Detector Dependency:} Inspection coverage depends on underlying entity detectors. Novel credential structures or specialized domain terminology may result in undetected entities.
 
-\subsection{Threats to Validity}
-\begin{itemize}
-    \item \textbf{Internal Validity:} Commercial LLM non-determinism could introduce variance in multi-turn traces across benchmark runs. Experiments must fix sampling temperatures and report confidence intervals across multiple iterations.
-    \item \textbf{External Validity:} Synthetic benchmark traces from AgentLeak and AgentDojo may not fully mirror complex enterprise deployments with bespoke internal protocols.
-    \item \textbf{Construct Validity:} Operationalizing privacy risk through $LRI^*$ assumes that message taint, clearance dominance, and sink reachability adequately capture information leakage risk.
-    \item \textbf{Performance Validity:} Latency measurements must reflect end-to-end multi-agent execution overhead across distributed networks, rather than isolated microbenchmarks.
-\end{itemize}
+\textit{2) Transition Probability Estimation:} Reachability modeling via absorbing Markov chains assumes that agent interaction probabilities can be derived from workflow definitions or execution logs, which may vary in dynamic environments.
+
+\textit{3) Benchmark Scale:} Evaluations were conducted on 31 labeled execution traces across ten attack scenarios; broader multi-domain benchmark evaluations and live multi-agent deployments represent essential future steps.
+
+\section{Conclusion and Future Work}
+This paper presented PrivAgentShield, a policy-aware runtime mediation framework for mitigating sensitive data leakage in multi-agent LLM systems. By unifying payload sensitivity, lattice clearance dominance, and downstream Markov reachability into the non-compensatory Leakage Risk Index ($LRI^*$), PrivAgentShield enforces deterministic ALLOW, SANITIZE, and QUARANTINE decisions across intermediate agent channels. Experimental evaluation on multi-agent execution traces demonstrated a 65.0\% privacy leakage prevention rate, 74.2\% task completion preservation, and a mean operational latency of 1.66\,ms.
+
+Future research will focus on extending the framework to decentralized edge and federated multi-agent environments, incorporating formal verification for dynamically changing agent graphs, and evaluating larger-scale real-world deployments.
 
 \balance
-\section{Conclusion and Future Work}
-This paper presented the design and formalization of PrivAgentShield, a policy-aware runtime mediation framework for mitigating sensitive data leakage in multi-agent LLM systems. By formalizing the non-compensatory Leakage Risk Index ($LRI^*$), PrivAgentShield unifies payload sensitivity, lattice clearance dominance, and execution graph reachability into an actionable runtime metric. Enforced through a cascaded three-tier inspection proxy utilizing session-consistent pseudonymization, the architecture provides a systematic path toward securing internal agent coordination channels without requiring foundation model retraining.
-
-Future work will focus on extending PrivAgentShield into a \textbf{Federated Edge AI} architecture, enabling decentralized, privacy-preserving mediation across distributed edge nodes and on-device multi-agent networks. Additional avenues include integrating hardware-accelerated Trusted Execution Environments (TEEs) and formal verification for dynamically evolving agent topologies.
-
-\section*{Data and Code Availability}
-The PrivAgentShield source code, empirical evaluation traces, and interactive demonstration dashboard are publicly accessible at \url{https://github.com/Charan359/PrivAgentShield} and hosted live at \url{https://priv-agent-shield-bice.vercel.app/}.
-
 \begin{thebibliography}{00}
 \bibitem{1} F. El Yagoubi, G. Badu-Marfo, and R. Al Mallah, ``AgentLeak: A benchmark for internal-channel privacy leakage in multi-agent LLM systems,'' \emph{arXiv preprint arXiv:2602.11510}, 2026.
 \bibitem{2} E. Debenedetti et al., ``AgentDojo: A dynamic environment to evaluate attacks and defenses for LLM agents,'' in \emph{Proc. Adv. Neural Inf. Process. Syst. (NeurIPS)}, 2024.
@@ -454,9 +454,6 @@ The PrivAgentShield source code, empirical evaluation traces, and interactive de
 \bibitem{18} Microsoft, ``Presidio analyzer and anonymizer for scalable PII detection,'' Microsoft Open Source, 2024.
 \bibitem{19} U. Zaratiana, N. Tomeh, P. Holat, and T. Charnois, ``GLiNER: Generalist model for named entity recognition using bidirectional transformers,'' in \emph{Proc. Conf. N. Am. Chapter Assoc. Comput. Linguistics (NAACL)}, 2024.
 \bibitem{20} X. Wang et al., ``Hyperscan: A high-performance multiple regex matching engine,'' in \emph{Proc. USENIX Conf. Netw. Syst. Des. Implementation (NSDI)}, 2019, pp. 841--856.
-\bibitem{21} LangChain, ``LangGraph: Building stateful multi-agent applications with directed acyclic graphs,'' Tech. Rep., 2024.
-\bibitem{22} J. Moura, ``CrewAI: Collaborative multi-agent role-playing architecture,'' Tech. Documentation, 2024.
-\bibitem{23} S. Hong et al., ``MetaGPT: Meta programming for a multi-agent collaborative framework,'' in \emph{Proc. Int. Conf. Learn. Representations (ICLR)}, 2024.
 \end{thebibliography}
 
 \end{document}
